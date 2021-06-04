@@ -19,13 +19,14 @@ import static com.compasso.agenda.ui.activity.ConstantesActivities.CHAVE_CONTATO
 public class ListaContatosActivity extends AppCompatActivity {
 
     public static final String TITULO_APPBAR = "Lista de Contatos";
-    private final ListaContatosView listaContatosView = new ListaContatosView(this);
+    private ListaContatosView listaContatosView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_contatos);
         setTitle(TITULO_APPBAR);
+        listaContatosView = new ListaContatosView(this);
         configuraFabNovoContato();
         configuraLista();
     }

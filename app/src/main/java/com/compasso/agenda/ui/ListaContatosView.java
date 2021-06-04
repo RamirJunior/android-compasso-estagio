@@ -6,7 +6,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.compasso.agenda.dao.ContatoDAO;
+import com.compasso.agenda.database.AgendaDataBase;
+import com.compasso.agenda.database.dao.ContatoDAO;
 import com.compasso.agenda.model.Contato;
 import com.compasso.agenda.ui.adapter.ListaContatosAdapter;
 
@@ -19,7 +20,8 @@ public class ListaContatosView {
     public ListaContatosView(Context context) {
         this.context = context;
         this.adapter = new ListaContatosAdapter(this.context);
-        dao = new ContatoDAO();
+        dao = AgendaDataBase.getInstance(context)
+                .getRoomContatoDAO();
     }
 
     public void confirmaRemocao(final MenuItem item) {

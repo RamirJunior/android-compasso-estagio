@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.compasso.agenda.R;
-import com.compasso.agenda.dao.ContatoDAO;
+import com.compasso.agenda.database.AgendaDataBase;
+import com.compasso.agenda.database.dao.ContatoDAO;
 import com.compasso.agenda.model.Contato;
 
 import static com.compasso.agenda.ui.activity.ConstantesActivities.CHAVE_CONTATO;
@@ -21,13 +23,15 @@ public class FormularioContatoActivity extends AppCompatActivity {
     private EditText campoNome;
     private EditText campoTelefone;
     private EditText campoEmail;
-    private final ContatoDAO dao = new ContatoDAO();
+    private ContatoDAO dao;
     private Contato contato;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_contato);
+        AgendaDataBase database = AgendaDataBase.getInstance(this);
+        dao = database.getRoomContatoDAO();
         inicializacaoDosCampos();
         carregaContato();
     }

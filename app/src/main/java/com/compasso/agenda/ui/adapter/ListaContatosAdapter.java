@@ -45,11 +45,11 @@ public class ListaContatosAdapter extends BaseAdapter {
         return viewCriada;
     }
 
-    private void vincula(View viewCriada, Contato contatoDevolvido) {
+    private void vincula(View viewCriada, Contato contato) {
         TextView nome = viewCriada.findViewById(R.id.item_contato_nome);
-        nome.setText(contatoDevolvido.getNome());
+        nome.setText(contato.getNome());
         TextView telefone = viewCriada.findViewById(R.id.item_contato_telefone);
-        telefone.setText(contatoDevolvido.getTelefone());
+        telefone.setText(contato.getTelefone());
     }
 
     private View criaView(ViewGroup viewGroup) {

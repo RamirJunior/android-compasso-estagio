@@ -4,16 +4,17 @@ Este repositório faz parte de uma série de projetos realizados durante o está
 - Projeto Agenda: projeto desenvolvido para ambientação com Android Studio e familiarização com arquitetura de aplicações criando e manipulando _activities_ e elementos básicos de layout.
   * Proposta: aplicativo para salvar e listar contatos contendo nome, telefone e e-mail.
 
-Módulo Android Parte 1: Concluído
+<strong>Módulo Android: Concluído</strong>
 
-Módulo Android Parte 2: Concluído
+<strong>Módulo Introdução à persistÊncia de dados com ORM: Concluído</strong>
 
-Módulo Android Parte 3: Concluído
+<i>Módulo Operações assíncronas: Em andamento</i>
 
 > Status do projeto Agenda: Em andamento :hourglass_flowing_sand:
 
 <hr>
+**Resultado Android Room parte 1**
 
-**Resultado Android Agenda Parte 3**
+<img src="/prints/room1-agenda-android.png" alt="Resultado Módulo Android 1"/>
 
-<img src="/prints/modulo-2-agenda-android.png" alt="Resultado Módulo Android 1"/>
+<i>Status: O aplicativo já salva os dados inseridos, deletados e atualizados no SQLite através da camada Room.</i>
