@@ -20,11 +20,20 @@
             android:importantForAutofill="no" />
 
         <EditText
-            android:id="@+id/activity_formulario_contato_telefone"
+            android:id="@+id/activity_formulario_contato_telefone_fixo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="@string/txt_telefone"
+            android:hint="@string/txt_telefone_fixo"
+            android:inputType="phone"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/activity_formulario_contato_telefone_celular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="@string/txt_telefone_celular"
             android:inputType="phone"
             android:importantForAutofill="no" />
 
