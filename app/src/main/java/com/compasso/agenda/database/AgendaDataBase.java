@@ -11,13 +11,16 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.compasso.agenda.database.converter.ConversorCalendar;
+import com.compasso.agenda.database.converter.ConversorTipoTelefone;
 import com.compasso.agenda.database.dao.ContatoDAO;
+import com.compasso.agenda.database.dao.TelefoneDAO;
 import com.compasso.agenda.model.Contato;
+import com.compasso.agenda.model.Telefone;
 
 import static com.compasso.agenda.database.AgendaMigrations.TODAS_MIGRATIONS;
 
-@Database(entities = {Contato.class}, version = 5, exportSchema = false)
-@TypeConverters({ConversorCalendar.class})
+@Database(entities = {Contato.class, Telefone.class}, version = 6, exportSchema = false)
+@TypeConverters({ConversorCalendar.class, ConversorTipoTelefone.class})
 public abstract class AgendaDataBase extends RoomDatabase {
 
     private static final String NOME_BANCO_DE_DADOS = "agenda.db";
@@ -31,4 +34,6 @@ public abstract class AgendaDataBase extends RoomDatabase {
                 .addMigrations(TODAS_MIGRATIONS)
                 .build();
     }
+
+    public abstract TelefoneDAO getTelefoneDAO();
 }
