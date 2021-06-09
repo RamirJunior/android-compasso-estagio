@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.compasso.agenda.model.TipoTelefone;
+
+import static com.compasso.agenda.model.TipoTelefone.FIXO;
+
 class AgendaMigrations {
 
     private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
@@ -58,6 +62,36 @@ class AgendaMigrations {
             database.execSQL("ALTER TABLE Contato_novo RENAME TO Contato");
         }
     };
-    static final Migration[] TODAS_MIGRATIONS = {MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5};
+    private static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `Contato_novo` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`nome` TEXT, " +
+                    "`email` TEXT, " +
+                    "`momentoDeCadastro` INTEGER)");
+
+            database.execSQL("INSERT INTO Contato_novo (id, nome, email, momentoDeCadastro) " +
+                    "SELECT id, nome, email, momentoDeCadastro FROM Contato");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `Telefone` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`numero` TEXT, " +
+                    "`tipo` TEXT, " +
+                    "`contatoId` INTEGER NOT NULL)");
+
+            database.execSQL("INSERT INTO Telefone (numero, contatoId) " +
+                    "SELECT telefoneFixo, id FROM Contato");
+
+            database.execSQL("UPDATE Telefone SET tipo = ?", new TipoTelefone[]{FIXO});
+
+            database.execSQL("DROP TABLE Contato");
+
+            database.execSQL("ALTER TABLE Contato_novo RENAME TO Contato");
+
+        }
+    };
+    static final Migration[] TODAS_MIGRATIONS = {MIGRATION_1_2, MIGRATION_2_3,
+            MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6};
 
 }

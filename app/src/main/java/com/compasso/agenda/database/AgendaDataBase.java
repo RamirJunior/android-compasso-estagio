@@ -24,9 +24,8 @@ import static com.compasso.agenda.database.AgendaMigrations.TODAS_MIGRATIONS;
 public abstract class AgendaDataBase extends RoomDatabase {
 
     private static final String NOME_BANCO_DE_DADOS = "agenda.db";
-
-
     public abstract ContatoDAO getRoomContatoDAO();
+    public abstract TelefoneDAO getTelefoneDAO();
 
     public static AgendaDataBase getInstance(Context context) {
         return Room.databaseBuilder(context, AgendaDataBase.class, NOME_BANCO_DE_DADOS)
@@ -34,6 +33,4 @@ public abstract class AgendaDataBase extends RoomDatabase {
                 .addMigrations(TODAS_MIGRATIONS)
                 .build();
     }
-
-    public abstract TelefoneDAO getTelefoneDAO();
 }
