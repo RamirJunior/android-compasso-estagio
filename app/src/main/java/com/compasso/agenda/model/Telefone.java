@@ -21,6 +21,12 @@ public class Telefone {
             onDelete = CASCADE)
     private int contatoId;
 
+    public Telefone(String numero, TipoTelefone tipo) {
+
+        this.numero = numero;
+        this.tipo = tipo;
+    }
+
     public int getContatoId() {
         return contatoId;
     }
