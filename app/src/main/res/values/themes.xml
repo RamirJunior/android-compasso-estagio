@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Agenda" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/redPrimary</item>
-        <item name="colorPrimaryDark">@color/redSecondary</item>
+        <item name="colorPrimary">@color/cinza1</item>
+        <item name="colorPrimaryDark">@color/cinza2</item>
         <item name="colorAccent">@color/teal_200</item>
         <!-- Customize your theme here. -->
     </style>

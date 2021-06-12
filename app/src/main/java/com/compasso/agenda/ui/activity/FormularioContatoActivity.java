@@ -10,6 +10,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.compasso.agenda.R;
+import com.compasso.agenda.asynctask.BuscaTodosTelefonesDoContatoTask;
+import com.compasso.agenda.asynctask.EditaContatoTask;
+import com.compasso.agenda.asynctask.SalvaContatoTask;
 import com.compasso.agenda.database.AgendaDataBase;
 import com.compasso.agenda.database.dao.ContatoDAO;
 import com.compasso.agenda.database.dao.TelefoneDAO;
@@ -79,15 +82,17 @@ public class FormularioContatoActivity extends AppCompatActivity {
     }
 
     private void preencheCamposDeTelefone() {
-        telefonesDoContato = telefoneDAO.buscaTodosTelefonesDoContato(contato.getId());
-        for (Telefone telefone :
-                telefonesDoContato) {
-            if (telefone.getTipo() == TipoTelefone.FIXO ){
-                campoTelefoneFixo.setText(telefone.getNumero());
-            } else {
-                campoTelefoneCelular.setText(telefone.getNumero());
+        new BuscaTodosTelefonesDoContatoTask(telefoneDAO, contato, telefones -> {
+            this.telefonesDoContato = telefones;
+            for (Telefone telefone :
+                    telefonesDoContato) {
+                if (telefone.getTipo() == TipoTelefone.FIXO ){
+                    campoTelefoneFixo.setText(telefone.getNumero());
+                } else {
+                    campoTelefoneCelular.setText(telefone.getNumero());
+                }
             }
-        }
+        }).execute();
     }
 
     private void finalizaFormulario() {
@@ -101,7 +106,6 @@ public class FormularioContatoActivity extends AppCompatActivity {
         } else {
             salvaContato(telefoneFixo, telefoneCelular);
         }
-        finish();
     }
 
     private Telefone criaTelefone(EditText campoTelefoneFixo, TipoTelefone fixo) {
@@ -110,34 +114,11 @@ public class FormularioContatoActivity extends AppCompatActivity {
     }
 
     private void salvaContato(Telefone telefoneFixo, Telefone telefoneCelular) {
-        int contatoId = contatoDAO.salva(contato).intValue();
-        vinculaContatoComTelefone(contatoId, telefoneFixo, telefoneCelular);
-        telefoneDAO.salva(telefoneFixo, telefoneCelular);
+        new SalvaContatoTask(contatoDAO, contato, telefoneFixo, telefoneCelular, telefoneDAO, this::finish).execute();
     }
 
     private void editaContato(Telefone telefoneFixo, Telefone telefoneCelular) {
-        contatoDAO.edita(contato);
-        vinculaContatoComTelefone(contato.getId(), telefoneFixo, telefoneCelular);
-        atualizaIdsDosTelefones(telefoneFixo, telefoneCelular);
-        telefoneDAO.atualiza(telefoneFixo, telefoneCelular);
-    }
-
-    private void atualizaIdsDosTelefones(Telefone telefoneFixo, Telefone telefoneCelular) {
-        for (Telefone telefone :
-                telefonesDoContato) {
-            if (telefone.getTipo() == TipoTelefone.FIXO){
-                telefoneFixo.setId(telefone.getId());
-            } else {
-                telefoneCelular.setId(telefone.getId());
-            }
-        }
-    }
-
-    private void vinculaContatoComTelefone(int contatoId, Telefone... telefones) {
-        for (Telefone telefone :
-                telefones) {
-            telefone.setContatoId(contatoId);
-        }
+        new EditaContatoTask(contatoDAO, contato, telefoneFixo, telefoneCelular, telefoneDAO, telefonesDoContato, this::finish).execute();
     }
 
     private void inicializacaoDosCampos() {
@@ -147,17 +128,11 @@ public class FormularioContatoActivity extends AppCompatActivity {
         campoEmail = findViewById(R.id.activity_formulario_contato_email);
     }
 
-
-
     private void preencheContato() {
         String nome = campoNome.getText().toString();
-        String telefone = campoTelefoneFixo.getText().toString();
-        String celular = campoTelefoneCelular.getText().toString();
         String email = campoEmail.getText().toString();
 
         contato.setNome(nome);
-//        contato.setTelefoneFixo(telefone);
-//        contato.setTelefoneCelular(celular);
         contato.setEmail(email);
     }
 }

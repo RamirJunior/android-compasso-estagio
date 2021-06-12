@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.compasso.agenda.asynctask.BuscaContatosTask;
+import com.compasso.agenda.asynctask.RemoveContatoTask;
 import com.compasso.agenda.database.AgendaDataBase;
 import com.compasso.agenda.database.dao.ContatoDAO;
 import com.compasso.agenda.model.Contato;
@@ -40,12 +42,11 @@ public class ListaContatosView {
     }
 
     public void atualizaContatos() {
-        adapter.atualiza(dao.todos());
+        new BuscaContatosTask(dao, adapter).execute();
     }
 
     private void remove(Contato contato) {
-        dao.remove(contato);
-        adapter.remove(contato);
+        new RemoveContatoTask(dao, adapter, contato).execute();
     }
 
     public void configuraAdapter(ListView listaDeContatos) {

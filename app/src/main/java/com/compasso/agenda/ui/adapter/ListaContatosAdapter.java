@@ -8,10 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.compasso.agenda.R;
+import com.compasso.agenda.asynctask.BuscaPrimeiroTelefoneDoContatoTask;
 import com.compasso.agenda.database.AgendaDataBase;
 import com.compasso.agenda.database.dao.TelefoneDAO;
 import com.compasso.agenda.model.Contato;
-import com.compasso.agenda.model.Telefone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +54,8 @@ public class ListaContatosAdapter extends BaseAdapter {
         TextView nome = viewCriada.findViewById(R.id.item_contato_nome);
         nome.setText(contato.getNome());
         TextView telefone = viewCriada.findViewById(R.id.item_contato_telefone);
-        Telefone primeiroTelefone = dao.buscaPrimeiroTelefoneDoContato(contato.getId());
-        telefone.setText(primeiroTelefone.getNumero());
+        new BuscaPrimeiroTelefoneDoContatoTask(dao, contato.getId(), telefoneEncontrado ->
+            telefone.setText(telefoneEncontrado.getNumero())).execute();
     }
 
     private View criaView(ViewGroup viewGroup) {
